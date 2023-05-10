@@ -113,7 +113,13 @@ public class CameraPreviewActivity extends AppCompatActivity {
     };
 
     private void openCamera() {
-
+    
+        //for +android 5.0 versions, you need permission to use the camera. This does that.
+        //Im not sure anymore if this belongs here, or at 'createCameraPreview()', so I've double posted here (shame on me)
+         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
+                        == PackageManager.PERMISSION_DENIED) {
+                    ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+                }
 
 
 
@@ -137,6 +143,15 @@ public class CameraPreviewActivity extends AppCompatActivity {
 
     protected void createCameraPreview() {
         try {
+        
+        //for +android 5.0 versions, you need permission to use the camera. This does that.
+        //Im not sure anymore if this belongs here, or at 'openCamera()', so I've double posted here (shame on me)
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
+                        == PackageManager.PERMISSION_DENIED) {
+                    ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+                }
+                
+                
             SurfaceTexture texture = textureView.getSurfaceTexture();
             assert texture != null;
             texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
